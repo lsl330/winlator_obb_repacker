@@ -5,23 +5,23 @@ winlator的数据包拆包打包脚本
 本脚本分为拆包工具和打包工具
 
 # 拆包工具
-将unpacker文件和winlator的obb数据包文件main.1.com.winlator.obb，放在同一目录。
-然后./unpacker运行拆包工具。
-拆包工具会自动创建winlator文件夹和container-pattern（注意：若已有同名字目录会先删除再创建）
-container-pattern文件夹实际是继续拆包了winlator/opt/container-pattern.tzst(为啥要拆包此文件后续会有说明）
+<p>将unpacker文件和winlator的obb数据包文件main.1.com.winlator.obb，放在同一目录。</p>
+<p>然后运行./unpacker运行拆包工具。</p>
+<p>拆包工具会自动创建winlator文件夹和container-pattern（注意：若已有同名字目录会先删除再创建）</p>
+<p>container-pattern文件夹实际是继续拆包了winlator/opt/container-pattern.tzst(为啥要拆包此文件后续会有说明）</p>
 
 # 打包工具
-将repacker文件放在winlator和container-pattern文件夹的同一级目录（若没有上述两文件夹，则先运行拆包文件）
-脚本内置三种解包模式
-1-2为急速打包模式，推荐制作者调试obb使用，obb大小偏大，但打包时间很快（10秒左右，同时，强烈不推荐发布时使用此参数）
-3-4位官方推荐的压缩参数，建议在手机使用termux打包时使用
-5-6位极限压缩参数，建议在电脑上打包obb时使用（在最终发布时，个人强烈建议使用此参数，能尽可能减少obb的体积）
-7为中文补丁，可以为原版obb添加中文支持。
-8可以更换指定wine版本，但由于winlator目前自身的问题，仅支持更换8.5以下的版本。8.6以上版本替换会报错
+<p>将repacker文件放在winlator和container-pattern文件夹的同一级目录（若没有上述两文件夹，则先运行拆包文件）</p>
+<p>脚本内置三种解包模式</p>
+<p>1-2为急速打包模式，推荐制作者调试obb使用，obb大小偏大，但打包时间很快（10秒左右，同时，强烈不推荐发布时使用此参数）</p>
+<p>3-4位官方推荐的压缩参数，建议在手机使用termux打包时使用</p>
+<p>5-6位极限压缩参数，建议在电脑上打包obb时使用（在最终发布时，个人强烈建议使用此参数，能尽可能减少obb的体积）</p>
+<p>7为中文补丁，可以为原版obb添加中文支持。</p>
+<p>8可以更换指定wine版本，但由于winlator目前自身的问题，仅支持更换8.5以下的版本。8.6以上版本替换会报错</p>
 
 # container-pattern文件说明
-container-pattern文件实际上是单独打包的wine文件。
-因此，若替换wine版本，或者制作包含游戏自启的obb，则需要修改该文件
-（打包时选2、4、6进行打包，若无修改container-pattern文件，则使用1、3、5打包）
+<p>container-pattern文件实际上是单独打包的wine文件。</p>
+<p>因此，若替换wine版本，或者制作包含游戏自启的obb，则需要修改该文件</p>
+<p>（打包时选2、4、6进行打包，若无修改container-pattern文件，则使用1、3、5打包）</p>
 
 

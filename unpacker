@@ -1,0 +1,18 @@
+#!/bin/bash
+clear
+
+echo "解压winlator映像到winlator文件夹"	
+if [ ! -d ./winlator ]; then
+	rm -rf ./winlator
+	mkdir winlator
+fi
+mkdir winlator
+tar -I 'zstd -T0' -xvf main.1.com.winlator.obb -C ./winlator
+echo "解压container-pattern文件到container-pattern文件夹"
+if [ ! -d ./container-pattern ]; then
+	rm -rf ./container-pattern
+	mkdir container-pattern
+fi
+tar -I 'zstd -T0' -xvf ./winlator/opt/container-pattern.tzst -C ./container-pattern
+
+echo "解压完成"

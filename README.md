@@ -21,7 +21,7 @@ container-pattern文件夹实际是继续拆包了winlator/opt/container-pattern
 8可以更换指定wine版本，但由于winlator目前自身的问题，仅支持更换8.5以下的版本。8.6以上版本替换会报错  
 
 # container-pattern文件说明
-container-pattern文件实际上是单独打包的wine文件。  
+container-pattern文件实际上是单独打包的.wine文件。  
 因此，或者制作包含游戏自启的obb（如游戏启动的shortcut就放在这里面），则需要修改该文件  
 （打包时选2、4、6进行打包，若无修改container-pattern文件，则使用1、3、5打包）  
 

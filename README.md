@@ -22,7 +22,7 @@ container-pattern文件夹实际是继续拆包了winlator/opt/container-pattern
 
 # container-pattern文件说明
 container-pattern文件实际上是单独打包的.wine文件。  
-因此，或者制作包含游戏自启的obb（如游戏启动的shortcut就放在这里面），则需要修改该文件  
+因此，若制作包含游戏自启的obb（如游戏启动的shortcut就放在这里面），则需要修改该文件  
 （打包时选2、4、6进行打包，若无修改container-pattern文件，则使用1、3、5打包）  
 
 

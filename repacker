@@ -1,0 +1,234 @@
+#!/bin/bash
+clear
+echo "本脚本可自动打包winlator的obb映像"
+echo "1) 急速打包obb（不含container-pattern)"
+echo "2) 急速打包obb（含container-pattern)"
+echo "3) 打包obb（不含container-pattern)"
+echo "4) 打包obb（含container-pattern)"
+echo "5) 极限打包obb（不含container-pattern)"
+echo "6) 极限打包obb（含container-pattern)"
+echo "7) 中文化（原版obb需要）"
+echo "8) 更换wine版本"
+echo ""
+read build
+clear
+if [ $build = 1 ]
+then
+	echo "打包winlator映像"
+	if [ ! -d ./build ]; then
+		mkdir build
+	fi
+	cd winlator
+	tar -I 'zstd -1 -T0' -cf main.2.com.winlator.obb .
+	echo "打完完成，映像在build文件夹"
+	cd ..
+	mv -f ./winlator/main.2.com.winlator.obb ./build/main.2.com.winlator.obb
+elif [ $build = 2 ]
+then
+	cd container-pattern
+	echo "打包container-pattern"
+	tar -I 'zstd -1 -T0' -cf container-pattern.tzst .
+	cd ..
+	echo "打包container-pattern完成，替换winlator文件"
+	mv -f ./container-pattern/container-pattern.tzst ./winlator/opt/container-pattern.tzst
+	echo "替换完成，打包winlator映像"
+	if [ ! -d ./build ]; then
+		mkdir build
+	fi
+	cd winlator
+	tar -I 'zstd -1 -T0' -cf main.2.com.winlator.obb .
+	echo "打完完成，映像在build文件夹"
+	cd ..
+	mv -f ./winlator/main.2.com.winlator.obb ./build/main.2.com.winlator.obb
+elif [ $build = 3 ]
+then
+	echo "打包winlator映像"
+	if [ ! -d ./build ]; then
+		mkdir build
+	fi
+	cd winlator
+	tar -I 'zstd -19 -T0' -cf main.2.com.winlator.obb .
+	echo "打完完成，映像在build文件夹"
+	cd ..
+	mv -f ./winlator/main.2.com.winlator.obb ./build/main.2.com.winlator.obb
+elif [ $build = 4 ]
+then
+	cd container-pattern
+	echo "打包container-pattern"
+	tar -I 'zstd -19 -T0' -cf container-pattern.tzst .
+	cd ..
+	echo "打包container-pattern完成，替换winlator文件"
+	mv -f ./container-pattern/container-pattern.tzst ./winlator/opt/container-pattern.tzst
+	echo "替换完成，打包winlator映像"
+	if [ ! -d ./build ]; then
+		mkdir build
+	fi
+	cd winlator
+	tar -I 'zstd -19 -T0' -cf main.2.com.winlator.obb .
+	echo "打完完成，映像在build文件夹"
+	cd ..
+	mv -f ./winlator/main.2.com.winlator.obb ./build/main.2.com.winlator.obb
+elif [ $build = 5 ]
+then
+	echo "打包winlator映像"
+	if [ ! -d ./build ]; then
+		mkdir build
+	fi
+	cd winlator
+	tar -I 'zstd -22 -T0 --ultra' -cf main.2.com.winlator.obb .
+	echo "打完完成，映像在build文件夹"
+	cd ..
+	mv -f ./winlator/main.2.com.winlator.obb ./build/main.2.com.winlator.obb
+elif [ $build = 6 ]
+then
+	cd container-pattern
+	echo "打包container-pattern"
+	tar -I 'zstd -22 -T0 --ultra' -cf container-pattern.tzst .
+	cd ..
+	echo "打包container-pattern完成，替换winlator文件"
+	mv -f ./container-pattern/container-pattern.tzst ./winlator/opt/container-pattern.tzst
+	echo "替换完成，打包winlator映像"
+	if [ ! -d ./build ]; then
+		mkdir build
+	fi
+	cd winlator
+	tar -I 'zstd -22 -T0 --ultra' -cf main.2.com.winlator.obb .
+	echo "打完完成，映像在build文件夹"
+	cd ..
+	mv -f ./winlator/main.2.com.winlator.obb ./build/main.2.com.winlator.obb	
+elif [ $build = 7 ]
+then
+	if [ ! -d ./fix ]; then
+		rm -f fix.tzst
+		mkdir fix
+		echo "下载中文化补丁"
+		wget https://raw.githubusercontent.com/lsl330/winlator_obb_repacker/main/fix.tzst -q
+		tar -I 'zstd -T0' -xvf ./fix.tzst -C ./fix
+		rm -f fix.tzst
+	fi
+	echo "安装中文化补丁"
+	cp -rf ./fix/* ./winlator
+elif [ $build = 8 ]
+then
+	clear
+	echo "本脚本可自动变更wine版本"
+	echo "选择你需要的wine版本:"
+	echo "1) Stable"
+	echo "2) Staging"
+	echo "3) Staging-tkg"
+	echo "4) Proton"
+	echo "5) Wine GE"
+	echo "6) 返回上级菜单"
+	echo ""
+	read build
+	if [ ! -d ./wineversion ]; then
+		mkdir wineversion
+	fi
+	if [ $build = 1 ]
+	then
+	clear
+    echo "选择你需要的Wine version:"
+	echo ""
+    read ver
+    echo "删除现有wine..."
+	rm -r ./winlator/opt/wine
+	echo 检测是否存在已下载wine文件
+	if [ -f ./wineversion/wine-$ver-amd64.tar.xz ]; then
+		echo 检测到存在已下载wine文件，进行离线复制并解压
+		cp -f ./wineversion/wine-$ver-amd64.tar.xz wine-$ver-amd64.tar.xz
+		tar -xf wine-$ver-amd64.tar.xz
+		echo 解压完成，准备安装
+		else
+		echo "Downloading and unpacking Wine Stable $ver..."
+		wget https://github.com/Kron4ek/Wine-Builds/releases/download/$ver/wine-$ver-amd64.tar.xz -q
+		cp -f wine-$ver-amd64.tar.xz ./wineversion/wine-$ver-amd64.tar.xz
+		tar -xf wine-$ver-amd64.tar.xz
+	fi
+    echo "Removing unpacked archive..."
+    rm wine-$ver-amd64.tar.xz
+    mv wine-$ver-amd64 ./winlator/opt/wine
+	elif [ $build = 2 ]
+	then
+		clear
+		echo "选择你需要的Wine version:"
+		echo ""
+		read ver
+		echo "删除现有wine..."
+		rm -r ./winlator/opt/wine
+		echo 检测是否存在已下载wine文件
+		if [ -f ./wineversion/wine-$ver-staging-amd64.tar.xz ]; then
+			echo 检测到存在已下载wine文件，进行离线复制并解压
+			cp -f ./wineversion/wine-$ver-staging-amd64.tar.xz wine-$ver-staging-amd64.tar.xz
+			tar -xf wine-$ver-staging-amd64.tar.xz
+			echo 解压完成，准备安装
+			else
+			echo "Downloading and unpacking Wine Staging $ver..."
+			wget https://github.com/Kron4ek/Wine-Builds/releases/download/$ver/wine-$ver-staging-amd64.tar.xz -q
+			cp -f wine-$ver-staging-amd64.tar.xz ./wineversion/wine-$ver-staging-amd64.tar.xz
+			tar -xf wine-$ver-staging-amd64.tar.xz
+		fi
+		echo "Removing unpacked archive..."
+		rm wine-$ver-staging-amd64.tar.xz
+		mv wine-$ver-staging-amd64 ./winlator/opt/wine
+	elif [ $build = 3 ]
+	then
+		clear
+		echo "选择你需要的Wine version:"
+		echo ""
+		read ver
+		echo "删除现有wine..."
+		rm -r ./winlator/opt/wine
+		echo 检测是否存在已下载wine文件
+		if [ -f ./wineversion/wine-$ver-staging-tkg-amd64.tar.xz ]; then
+			echo 检测到存在已下载wine文件，进行离线复制并解压
+			cp -f ./wineversion/wine-$ver-staging-tkg-amd64.tar.xz wine-$ver-staging-tkg-amd64.tar.xz
+			tar -xf wine-$ver-staging-tkg-amd64.tar.xz
+			echo 解压完成，准备安装
+		else
+			echo "Downloading and unpacking Wine Staging-tkg $ver..."
+			wget https://github.com/Kron4ek/Wine-Builds/releases/download/$ver/wine-$ver-staging-tkg-amd64.tar.xz -q
+			cp -f wine-$ver-staging-tkg-amd64.tar.xz ./wineversion/wine-$ver-staging-tkg-amd64.tar.xz
+			tar -xf wine-$ver-staging-tkg-amd64.tar.xz
+		fi
+		echo "Removing unpacked archive..."
+		rm wine-$ver-staging-tkg-amd64.tar.xz
+		mv wine-$ver-staging-tkg-amd64 ./winlator/opt/wine
+	elif [ $build = 4 ]
+	then
+		echo "删除现有wine..."
+		rm -r ./winlator/opt/wine
+		wp=wine-proton-8.0-2-amd64
+		echo 检测是否存在已下载wine文件
+		if [ -f ./wineversion/$wp.tar.xz ]; then
+			echo 检测到存在已下载wine文件，进行离线复制并解压
+			cp -f ./wineversion/$wp.tar.xz $wp.tar.xz
+			tar -xf $wp.tar.xz
+			echo 解压完成，准备安装
+		else
+			echo "Downloading and unpacking Proton 8.0-2..."
+			wget https://github.com/Kron4ek/Wine-Builds/releases/download/proton-8.0-2/wine-proton-8.0-2-amd64.tar.xz -q
+			cp -f wine-proton-8.0-2-amd64.tar.xz ./wineversion/$wp.tar.xz
+			tar -xf wine-proton-8.0-2-amd64.tar.xz
+		fi
+		echo "Removing unpacked archive..."
+		rm wine-proton-8.0-2-amd64.tar.xz
+		mv wine-proton-8.0-2-amd64 ./winlator/opt/wine
+	elif [ $build = 5 ]
+	then
+		echo "删除现有wine..."
+		rm -r ./winlator/opt/wine
+		echo "Downloading and unpacking Wine GE 8-10..."
+		wget https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton8-10/wine-lutris-GE-Proton8-10-x86_64.tar.xz -q
+		tar -xf wine-lutris-GE-Proton8-10-x86_64.tar.xz
+		echo "Removing unpacked archive..."
+		rm wine-lutris-GE-Proton8-10-x86_64.tar.xz
+		mv lutris-GE-Proton8-10-x86_64 wine
+	else
+			echo "Incorrect Wine version"
+			clear
+			./repacker
+	fi
+	echo -e 复制字体文件
+	cp -f ./fix/opt/wine/share/wine/fonts/SimSun.ttc ./winlator/opt/wine/share/wine/fonts/SimSun.ttc
+	cp -f ./fix/opt/wine/share/wine/fonts/PMingLiU-TW.ttf ./winlator/opt/wine/share/wine/fonts/PMingLiU-TW.ttf
+fi

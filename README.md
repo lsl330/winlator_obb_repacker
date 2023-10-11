@@ -1,9 +1,10 @@
-# 2023/10/11日适配2.0版本
-
+# 2023/10/11日  
+适配winlator，对应数据包为main.2.com.winlator.obb  
+repacker更换wine功能已经可用  
 
 # winlator_obb_repacker
 winlator的数据包拆包打包脚本
-2.0版本中，repaker更换wine功能已经可用
+
 
 # 使用说明
 本脚本分为拆包工具和打包工具

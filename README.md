@@ -1,5 +1,5 @@
 # 2023/10/11日  
-适配winlator，对应数据包为main.2.com.winlator.obb  
+适配winlator2.0，对应数据包为main.2.com.winlator.obb  
 repacker更换wine功能已经可用  
 
 # winlator_obb_repacker
